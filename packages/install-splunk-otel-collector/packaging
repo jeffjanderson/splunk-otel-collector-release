@@ -1,0 +1,7 @@
+set -e -x
+
+cp -a install-splunk-otel-collector/* ${BOSH_INSTALL_TARGET}
+cd ${BOSH_INSTALL_TARGET}
+
+sudo sh ./install-splunk-otel-collector.sh --realm us1 -- xxxxxxxxxxxxxxxxxxxxxx --mode agent --without-fluentd --deployment-environment test
+

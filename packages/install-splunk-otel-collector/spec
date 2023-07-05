@@ -1,0 +1,7 @@
+---
+name: install-splunk-otel-collector
+
+dependencies: []
+
+files:
+- install-splunk-otel-collector/**/* # From https://dl.signalfx.com/splunk-otel-collector.sh

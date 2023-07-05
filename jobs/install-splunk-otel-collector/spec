@@ -1,0 +1,10 @@
+---
+name: install-splunk-otel-collector
+
+templates:
+  install-splunk-otel-collector.erb: bin/ctl
+
+packages:
+- install-splunk-otel-collector
+
+properties: {}

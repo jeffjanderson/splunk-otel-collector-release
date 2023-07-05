@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Variables
+RUN_DIR=/var/vcap/sys/run/install-splunk-otel-collector
+LOG_DIR=/var/vcap/sys/log/install-splunk-otel-collector
+PIDFILE=${RUN_DIR}/pid
+
+# Create the directories if they do not exist already, and chown to vcap
+mkdir -p $RUN_DIR $LOG_DIR
+chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+# Create and chown the pid file
+touch $PIDFILE
+chown -R vcap:vcap $PIDFILE
+chmod 777 $PIDFILE
+
+# Write messages to the proper timestamped log
+exec 1>${LOG_DIR}/splunk-otel-collector.stdout.log
+exec 2>${LOG_DIR}/splunk-otel-collector.stderr.log
+
+# Process commands
+case $1 in
+
+  start)
+
+    echo "Starting splunk-otel-collector"
+    sudo systemctl start splunk-otel-collector
+    sudo systemctl show splunk-otel-collector --property=MainPID | sed 's/.*=//' > $PIDFILE
+
+    ;;
+
+  stop)
+    echo "Stopping splunk-otel-collector"
+    sudo systemctl stop splunk-otel-collector
+    rm -f $PIDFILE
+
+    ;;
+
+  *)
+    echo "Usage issue with splunk-otel-collector"
+    echo "Usage: ctl {start|stop}" ;;
+
+esac
